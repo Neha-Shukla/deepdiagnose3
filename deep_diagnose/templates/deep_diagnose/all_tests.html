@@ -1,0 +1,18 @@
+{% extends 'deep_diagnose/base.html' %}
+{% block body %}
+<!--all tests list-->
+<br><br><br>
+
+
+            {% for tests in all_tests %}
+<li>
+            <a href="{% url 'deep_diagnose:tests_detail' pk=tests.pk %}">
+                {{ tests.test_name }}
+            </a>
+            <br><br>
+          </li>
+            {% endfor %}
+
+
+
+{% endblock %}

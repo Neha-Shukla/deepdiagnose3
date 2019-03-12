@@ -1,0 +1,23 @@
+{% extends 'deep_diagnose/base.html' %}
+{% block javascript %}
+<script>
+    $("#id_username").change(function () {
+      console.log( $(this).val() );
+    });
+  </script>
+{% endblock javascript %}
+{% block body %}
+{% if user.is_authenticated %}
+{{ tests.test_name }}
+<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'deep_diagnose/form-template.html' %}
+    <button type="submit" class="btn btn=success">Submit</button>
+</form>
+    {% else %}
+    <script>
+        alert("You Have To Log In First");
+        window.location.href = "/login/";
+    </script>
+    {% endif %}
+    {% endblock %}
