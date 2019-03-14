@@ -1,5 +1,6 @@
 from django import forms
-from .models import Company
+from .models import Profile
+from django.contrib.auth.models import User
 
 
 class Location(forms.Form):
@@ -56,6 +57,18 @@ class OrderNowForm(forms.Form):
                                     label='Suitable Time',)
 
 
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
 
 
 class LoginForm(forms.Form):

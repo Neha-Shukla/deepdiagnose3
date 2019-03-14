@@ -1,17 +1,19 @@
 
 from .filters import CompanyFilter
 from django.views import generic
-from .models import CompanyDetail, Tests,  CompanyTests, OrderInfo, TestCategory
+from .models import CompanyDetail, Tests,  CompanyTests, OrderInfo, TestCategory,Profile
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib.auth.decorators import login_required
-from . forms import UserRegistrationForm, Company, LoginForm
+from . forms import UserRegistrationForm,LoginForm, UserUpdateForm, ProfileUpdateForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django import forms
+from django.contrib import messages
 
 
+# register user
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -37,6 +39,46 @@ def home(request):
     return render(request, 'deep_diagnose/user_location.html')
 
 
+# user profile
+@login_required
+def profile(request):
+    return render(request, 'deep_diagnose/profile.html')
+
+
+# admin login
+def loginAdminPanel(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            account = authenticate(username=username, password=password)
+            if account is not None:
+                login(request, account)
+                #here is redirecting to admin panel
+                return HttpResponseRedirect('/adminhome/')
+            else:
+                return render(request, 'registration/adminlogin.html')
+        else:
+            return render(request, 'registration/adminlogin.html')
+    else:
+        form = LoginForm()
+        context = {'form':form}
+        return render(request, 'registration/adminlogin.html', context)
+
+
+# first page for admin
+@login_required
+def adminhome(request):
+    return render(request,'admin/adminhome.html')
+
+
+# admin profile
+@login_required
+def adminprofile(request):
+    return render(request, 'admin/adminprofile.html')
+
+
 # for showing result --->companies nearby
 def result(request):
     company_list = CompanyDetail.objects.all().order_by('company_name')
@@ -53,16 +95,19 @@ class CompanyList(generic.ListView):
         return CompanyDetail.objects.all().order_by('company_name')
 
 
-def companylist(request):
-    companies=CompanyDetail.objects.all()
-    return render(request,'deep_diagnose/base.html',{'companies':companies})
-
-
 # gives details about the company->tests,price,contact info
 class CompanyDetails(generic.DetailView):
-    model = CompanyDetail
     template_name = 'deep_diagnose/company_details.html'
     context_object_name = 'company'
+
+    def get_queryset(self):
+        return CompanyDetail.objects.all().order_by('test_name')
+
+
+# delete company
+class CompanyDelete(DeleteView):
+    model = CompanyDetail
+    success_url = reverse_lazy('deep_diagnose:adminhome')
 
 
 # list of all tests
@@ -79,6 +124,33 @@ class TestDetail(generic.DetailView):
     model = Tests
     template_name = 'deep_diagnose/test_detail.html'
     context_object_name = 'test'
+
+
+# test categories
+class Category(generic.DetailView):
+    model = TestCategory
+    template_name = 'deep_diagnose/category.html'
+    context_object_name = 'category'
+
+
+# use another test
+class TestCreate(CreateView):
+    model = Tests
+    fields = ['test_name','category']
+    success_url = reverse_lazy('deep_diagnose:adminhome')
+
+
+# update existing test
+class TestUpdate(UpdateView):
+    model = Tests
+    fields = ['test_name']
+    success_url = reverse_lazy('deep_diagnose:adminhome')
+
+
+# delete test
+class TestDelete(DeleteView):
+    model = Tests
+    success_url = reverse_lazy('deep_diagnose:adminhome')
 
 
 # returns company name on the basis search item in searchbox
@@ -107,11 +179,7 @@ def show_results(request, abc):
     return render(request, 'deep_diagnose/base.html', context)
 
 
-@login_required
-def profile(request):
-    return render(request, 'deep_diagnose/profile.html')
-
-
+# order the test
 class OrderNow(CreateView):
     model = OrderInfo
     template_name = 'deep_diagnose/ordernow.html'
@@ -124,28 +192,7 @@ def thankyou(request):
     return render(request, 'deep_Diagnose/thankyou.html')
 
 
-class TestCreate(CreateView):
-    model = Tests
-    fields = ['test_name','category']
-    success_url = reverse_lazy('deep_diagnose:adminhome')
-
-
-class TestUpdate(UpdateView):
-    model = Tests
-    fields = ['test_name']
-    success_url = reverse_lazy('deep_diagnose:adminhome')
-
-
-class TestDelete(DeleteView):
-    model = Tests
-    success_url = reverse_lazy('deep_diagnose:adminhome')
-
-
-class CompanyDelete(DeleteView):
-    model = CompanyDetail
-    success_url = reverse_lazy('deep_diagnose:adminhome')
-
-
+# gives admin options to delete and update tests
 class AdminTestList(generic.ListView):
     template_name = 'admin/admin_test_list.html'
     context_object_name = 'all_tests'
@@ -154,6 +201,7 @@ class AdminTestList(generic.ListView):
         return Tests.objects.all().order_by('test_name')
 
 
+# show list of companies and admin can delete it
 class AdminCompanyList(generic.ListView):
     template_name = 'admin/admin_company_list.html'
     context_object_name = 'all_companies'
@@ -163,40 +211,30 @@ class AdminCompanyList(generic.ListView):
 
 
 @login_required
-def adminhome(request):
-        return render(request,'admin/adminhome.html')
+def profile(request):
+    u_form = UserUpdateForm(request.POST, instance=request.user)
+    p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
 
+    if u_form.is_valid() and p_form.is_valid():
+        u_form.save()
+        p_form.save()
 
-def loginAdminPanel(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            account = authenticate(username=username, password=password)
-            if account is not None:
-                login(request, account)
-                #here is redirecting to admin panel
-                return HttpResponseRedirect('/adminhome/')
-            else:
-                return render(request, 'registration/adminlogin.html')
-        else:
-            return render(request, 'registration/adminlogin.html')
+        def redirect_view(request):
+            response = redirect('/profile/')
+            return response
+        # messages.success(request, f'Your Account has been updated')
+        # return redirect('profile')
+
     else:
-        form = LoginForm()
-        context = {'form':form}
-        return render(request, 'registration/adminlogin.html', context)
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user)
+
+    context = {'u_form': u_form, 'p_form': p_form}
+    return render(request, 'deep_diagnose/profile.html', context)
 
 
-@login_required
-def adminprofile(request):
-    return render(request, 'admin/adminprofile.html')
 
 
-class Category(generic.DetailView):
-    model = TestCategory
-    template_name = 'deep_diagnose/category.html'
-    context_object_name = 'category'
 
 
 

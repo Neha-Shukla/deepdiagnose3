@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'deep_diagnose',
     'django_filters',
     'social_django',
-
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -143,6 +143,7 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "deep_diagnose/static"),

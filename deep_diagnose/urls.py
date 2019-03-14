@@ -57,7 +57,7 @@ urlpatterns = [
 
     path('adminprofile/', views.adminprofile, name='admin-profile'),
 
-    path('company/', views.companylist, name='companylist'),
+    path('company/', views.CompanyList.as_view(), name='companylist'),
 
     url(r'category(?P<pk>[0-9]+)/$', views.Category.as_view(), name='category'),
 

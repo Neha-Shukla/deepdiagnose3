@@ -2,13 +2,24 @@
 {% block body %}
 
 <br><br><br>
+<div class="table-responsive-sm">
+    <table class="table table-bordered">
 
-    <ul class="dropdown-menu">
-            {% for company in all_companies %}
-        <div class="title"><li><a href="{% url 'deep_diagnose:company_detail' company.id %}">{{company.company_name}}</a><br><br></li>
-        </div>
-</ul>
+        <tbody>
+        {% for company in all_companies %}
+        <tr>
+            <th scope="row">{{ company.id }}</th>
+            <td>{{company.company_name}}</a></td>
+            <td><img src="{{ company.logo.url }}" height="200px" weight="300px"></td>
+            <td><a href="{% url 'deep_diagnose:company_detail' company.id %}">FIND</a></td>
+
+        </tr>
         {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
 
 {% endblock %}
 
