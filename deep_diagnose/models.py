@@ -54,6 +54,8 @@ class CompanyTests(models.Model):
 
 
 class OrderInfo(models.Model):
+    order_no = models.AutoField(primary_key=True, default=0)
+    company_name = models.CharField(max_length=125, default='NULL')
     test_name = models.CharField(max_length=125, default='NULL')
     user_name = models.CharField(max_length=125)
     email_id = models.EmailField()

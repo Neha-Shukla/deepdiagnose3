@@ -34,7 +34,7 @@ urlpatterns = [
 
     path('profile/', views.profile, name='profile'),
 
-    path('ordernow/', views.OrderNow.as_view(), name='ordernow'),
+    path('ordernow/(?P<pk>[0-9]+)', views.OrderNow, name='ordernow'),
 
     path('thankyou/', views.thankyou, name='thankyou'),
 
@@ -61,4 +61,5 @@ urlpatterns = [
 
     url(r'category(?P<pk>[0-9]+)/$', views.Category.as_view(), name='category'),
 
+    # path('', views.send, name='send'),
 ]

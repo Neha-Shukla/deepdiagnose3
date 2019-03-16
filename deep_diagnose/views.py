@@ -2,15 +2,17 @@
 from .filters import CompanyFilter
 from django.views import generic
 from .models import CompanyDetail, Tests,  CompanyTests, OrderInfo, TestCategory,Profile
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from . forms import UserRegistrationForm,LoginForm, UserUpdateForm, ProfileUpdateForm
+from . forms import UserRegistrationForm,LoginForm, UserUpdateForm, ProfileUpdateForm, OrderNowForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django import forms
 from django.contrib import messages
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 # register user
@@ -180,12 +182,29 @@ def show_results(request, abc):
 
 
 # order the test
-class OrderNow(CreateView):
-    model = OrderInfo
-    template_name = 'deep_diagnose/ordernow.html'
-    fields = ['user_name', 'email_id','age','address_line_1','city','state','zip_code','phone_no',
-              'suitable_date','suitable_time']
-    success_url = reverse_lazy('deep_diagnose:find')
+def OrderNow(request,pk):
+    orderno=OrderInfo.objects.all().count()
+    order = CompanyTests.objects.filter(id=pk)
+    if request.method=='POST':
+        p=OrderInfo()
+        p.order_no=request.POST.get('orderno')
+        p.company_name=request.POST.get('company_name')
+        p.test_name=request.POST.get('test_name')
+        p.user_name=request.POST.get('username')
+        p.age=request.POST.get('age')
+        p.email_id=request.POST.get('email_id')
+        p.address_line_1=request.POST.get('address_line_1')
+        p.city=request.POST.get('city')
+        p.state=request.POST.get('state')
+        p.country=request.POST.get('country')
+        p.zip_code=request.POST.get('zip_code')
+        p.phone_no=request.POST.get('phone_no')
+        p.suitable_date=request.POST.get('suitable_date')
+        p.suitable_time=request.POST.get('suitable_time')
+        p.save()
+        return render(request, 'deep_diagnose/thankyou.html',{'orders':orderno})
+    else:
+        return render(request,'deep_diagnose/ordernow.html',{'order':order,'orders':orderno})
 
 
 def thankyou(request):
@@ -233,6 +252,12 @@ def profile(request):
     return render(request, 'deep_diagnose/profile.html', context)
 
 
+def send(request):
+    # send_mail('Subject here', 'Here is the message.', settings.EMAIL_HOST_USER,
+    #           ['nshukl23@hmail.com'], fail_silently=False)
+    # return render(request,'deep_diagnose/send.html')
+    orderno = OrderInfo.objects.filter(username=User.username)
+    return render(request,'deep_diagnose/send.html',{'orderno':orderno})
 
 
 

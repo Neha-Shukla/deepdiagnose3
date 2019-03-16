@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_filters',
     'social_django',
     'crispy_forms',
+    'django_truncate',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,12 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'ujDG6ks6a34GNMzg7S124RXI'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'deep_diagnose:profile'
 django_heroku.settings(locals())
+
+
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'Neha@shukla23' #sender mail password
+EMAIL_HOST_USER = 'nshukl23@mail.com' #sender mail username
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

@@ -63,7 +63,7 @@ font-size:14%;
     <td>Rs-{{ companytests.cost }}
      <br>
      {{ companytests.company.city }} {{ companytests.company.state }}</td>
-    <td><a href="{% url 'deep_diagnose:ordernow' %}">BOOK NOW!</a></td>
+    <td><a href="{% url 'deep_diagnose:ordernow' pk=companytests.id%}">BOOK NOW!</a></td>
    </tr>
    {% endfor %}
    </tbody>

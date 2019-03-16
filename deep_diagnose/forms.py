@@ -36,6 +36,7 @@ class UserRegistrationForm(forms.Form):
 
 
 class OrderNowForm(forms.Form):
+
     user_name = forms.CharField(max_length=125,
                                 label='Username',)
     email_id = forms.EmailField(required=True,
