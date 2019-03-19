@@ -1,0 +1,27 @@
+
+<html>
+
+<body>
+
+<div class="table-responsive-sm" style="height:'auto';">
+    <table class="table table-bordered">
+
+        <tbody>
+        {% for i in search %}
+        <tr>
+
+            <td>{{i.test_name}}</td>
+            <td> <a href="{% url 'deep_diagnose:tests_detail' pk=i.pk %}">
+                FIND COMPANIES
+            </a></td>
+
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+

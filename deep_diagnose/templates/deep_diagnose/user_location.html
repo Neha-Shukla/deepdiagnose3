@@ -34,6 +34,8 @@
             <!--<input type="text" name="city">-->
             <!--state-->
             <!--<input type="text" name="state">-->
+            {% csrf_token %}
+            <input type ='text' id="search" name="search" class="states order-alpha text-center" placeholder="Test" style="text-transform:uppercase;padding-top:0.5rem; padding-bottom:0.5rem; border:2px solid #1ebba3;"/>
 
             <input type="text" name="state" class="states order-alpha text-center" placeholder="State" id="stateId" style="text-transform:uppercase;padding-top:0.5rem; padding-bottom:0.5rem; border:2px solid #1ebba3;">
 
@@ -46,7 +48,12 @@
 </div><!--  End Search Box -->
 <!-- End Landing Page -->
 </div>
+
 <div id="about" class="offset">
+    <br><br><br><br>
+    <ul id="search-results">
+
+    </ul>
     <div class="col-12 text-center">
         <h3 class="about-heading" style="padding-top:10rem;">About Us</h3>
         <div class="heading-underline"></div>

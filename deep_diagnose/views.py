@@ -10,9 +10,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django import forms
-from django.contrib import messages
-from django.conf import settings
-from django.core.mail import send_mail
+
+from django.template.loader import render_to_string
+from django.http import HttpResponse
 
 
 # register user
@@ -275,6 +275,21 @@ class OrderUpdate(UpdateView):
     fields = ['age','address_line_1','city','state','phone_no','zip_code','suitable_date',
               'suitable_time']
     success_url = reverse_lazy('deep_diagnose:adminhome')
+
+
+def search_titles(request):
+    context ={}
+    if request.method == 'POST':
+        search_text = request.POST['search_text']
+        search = Tests.objects.filter(
+            test_name__istartswith=search_text)
+        context={
+            'search':search,
+        }
+        html = render_to_string('deep_diagnose/search_results.html',context)
+
+        return HttpResponse(html, content_type="application/json")
+    return render(request,'deep_diagnose/ajax_search.html',context)
 
 
 
