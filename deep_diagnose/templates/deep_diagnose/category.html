@@ -25,7 +25,7 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th scope="col">SNO</th>
+
             <th scope="col">TEST NAME</th>
             <th scope="col">COMPANIES OFFER THE TEST</th>
 
@@ -34,7 +34,7 @@
         <tbody>
         {% for companytests in category.tests_set.all %}
         <tr>
-            <th scope="row">{{ companytests.id }}</th>
+
             <td>{{ companytests.test_name }}</td>
 
             <td><a href="{% url 'deep_diagnose:tests_detail' companytests.id %}">FIND</a></td>

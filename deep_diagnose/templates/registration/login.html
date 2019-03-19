@@ -1,10 +1,65 @@
 
 {% extends 'deep_diagnose/base.html' %}
+{% block javascript %}
+<style>
+input[type=text], select {
+  width: 60%;
 
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input[type=password], select {
+  width: 60%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 20%;
+  background-color: grey;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20%;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: grey;
+}
+
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+</style>
+{% endblock %}
 {% block body %}
-<div class="login text-center" style="padding-top:15rem;">
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+{% if user.is_authenticated %}
+<script>
+        alert("You are already logged in");
+        window.location.href = "/home/";
+    </script>
+{% endif %}
+<br>
+<h3>Welcome User!!</h3>
+<div class="login text-center" style="padding-top:5rem;">
 <form method="POST">
     {% csrf_token %}
+
     <p>
         <label>Username</label>
         <input type="text" name="username">
@@ -14,8 +69,10 @@
         <input type="password" name="password">
     </p>
 
-    <button type="submit">Login</button>
+    <input type="submit" value="Login">
 </form>
+
+    OR
     <br>
 </div><center>
 <a href="{% url 'social:begin' 'google-oauth2' %}"><button class="loginBtn loginBtn--google">

@@ -5,12 +5,56 @@
       console.log( $(this).val() );
     });
   </script>
+<style>
+input[type=text], select {
+  width: 60%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input[type=password], select {
+  width: 60%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+background-color: grey;
+  width: 20%;
+
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20%;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: grey;
+}
+
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+</style>
 {% endblock javascript %}
 {% block body %}
-<div class="register text-center" style="padding-top:15rem;">
+<br>
+<center><h3>Register here!!</h3></center>
+<div class="register text-center" style="padding-top:2rem;">
     <form method="POST">
         {% csrf_token %} {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <input type="submit" value="Register">
     </form>
 </div>
 {% endblock %}

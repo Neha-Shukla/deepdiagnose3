@@ -83,7 +83,7 @@ def adminprofile(request):
 
 # for showing result --->companies nearby
 def result(request):
-    company_list = CompanyDetail.objects.all().order_by('company_name')
+    company_list = CompanyDetail.objects.all()
     company_filter = CompanyFilter(request.GET, queryset=company_list)
     return render(request, 'deep_diagnose/company_list.html', {'filter': company_filter})
 
@@ -94,7 +94,7 @@ class CompanyList(generic.ListView):
     context_object_name = 'all_companies'
 
     def get_queryset(self):
-        return CompanyDetail.objects.all().order_by('company_name')
+        return CompanyDetail.objects.all()
 
 
 # gives details about the company->tests,price,contact info
@@ -252,14 +252,29 @@ def profile(request):
     return render(request, 'deep_diagnose/profile.html', context)
 
 
-def send(request):
-    # send_mail('Subject here', 'Here is the message.', settings.EMAIL_HOST_USER,
-    #           ['nshukl23@hmail.com'], fail_silently=False)
-    # return render(request,'deep_diagnose/send.html')
-    orderno = OrderInfo.objects.filter(username=User.username)
-    return render(request,'deep_diagnose/send.html',{'orderno':orderno})
+# def send(request):
+#     # send_mail('Subject here', 'Here is the message.', settings.EMAIL_HOST_USER,
+#     #           ['nshukl23@hmail.com'], fail_silently=False)
+#     # return render(request,'deep_diagnose/send.html')
+#     orderno = OrderInfo.objects.filter(username=User.username)
+#     return render(request,'deep_diagnose/send.html',{'orderno':orderno})
 
 
+def OrderHistory(request):
+    orders = OrderInfo.objects.filter(user_name=request.user)
+    return render(request,'deep_diagnose/orderhistory.html',{'orders':orders})
+
+
+class CancelOrder(DeleteView):
+    model = OrderInfo
+    success_url = reverse_lazy('deep_diagnose:orderhistory')
+
+
+class OrderUpdate(UpdateView):
+    model = OrderInfo
+    fields = ['age','address_line_1','city','state','phone_no','zip_code','suitable_date',
+              'suitable_time']
+    success_url = reverse_lazy('deep_diagnose:adminhome')
 
 
 

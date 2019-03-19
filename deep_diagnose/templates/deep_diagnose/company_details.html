@@ -48,7 +48,7 @@ font-size:14%;
   <table class="table table-bordered">
    <thead>
    <tr>
-    <th scope="col">SNO</th>
+
     <th scope="col">COMPANY NAME</th>
     <th scope="col">COST</th>
     <th scope="col">TESTS AVAILABLE</th>
@@ -58,7 +58,7 @@ font-size:14%;
    <tbody>
    {% for companytests in company.companytests_set.all %}
    <tr>
-    <th scope="row">{{ companytests.id }}</th>
+
     <td>{{ companytests.tests }}</td>
     <td>Rs-{{ companytests.cost }}
      <br>
