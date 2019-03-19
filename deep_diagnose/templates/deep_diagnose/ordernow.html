@@ -8,13 +8,60 @@
 {% endblock javascript %}
 {% block body %}
 {% if user.is_authenticated %}
-{{ tests.test_name }}
 <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+    {% for i in x %}
+<input type="text" name="test_id" value="{{ i.company_name }}" >
+    <br>
+    <input type="text" name="test_id" value="{{ i.tests }}">
+{% endfor %}
+
+
     {% csrf_token %}
-    {% include 'deep_diagnose/form-template.html' %}
+    <label>Order no</label>
+    <input type="text" name="orderno" value="{{ orders }}" readonly>
+    <br>
+    {% for i in order %}
+    <label>Company name</label>
+    <input type="text" name="company_name" value="{{ i.company_name }}" readonly>
+    <br>
+   <label>test name</label>
+    <input type="text" name="test_name" value="{{ i.tests }}" readonly>
+    <br>
+    {% endfor %}
+    <label>Username</label>
+    <input type="text" name="username" value="{{ user.username }}" readonly>
+    <br>
+    <label>Email</label>
+    <input type="text" name="email_id" value="{{ user.email }}" readonly>
+    <br>
+    <label>Age</label>
+    <input type="text" name="age" value="">
+    <br>
+    <label>Address line 1</label>
+    <input type="text" name="address_line_1" value="">
+    <br>
+    <label>City</label>
+    <input type="text" name="city" value="">
+    <br>
+    <label>State</label>
+    <input type="text" name="state" value="">
+    <br>
+    <label>Zip code</label>
+    <input type="text" name="zip_code" value="">
+    <br>
+    <label>Phone no</label>
+    <input type="text" name="phone_no" value="">
+    <br>
+    <label>Suitable date</label>
+    <input type="text" name="suitable_date" value="">
+    <br>
+    <label>Suitable time</label>
+    <input type="text" name="suitable_time" value="">
+    <br>
     <button type="submit" class="btn btn=success">Submit</button>
 </form>
     {% else %}
+
     <script>
         alert("You Have To Log In First");
         window.location.href = "/login/";

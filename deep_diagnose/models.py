@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.urls import reverse
 
 
@@ -53,6 +54,8 @@ class CompanyTests(models.Model):
 
 
 class OrderInfo(models.Model):
+    order_no = models.AutoField(primary_key=True, default=0)
+    company_name = models.CharField(max_length=125, default='NULL')
     test_name = models.CharField(max_length=125, default='NULL')
     user_name = models.CharField(max_length=125)
     email_id = models.EmailField()
@@ -71,8 +74,9 @@ class Company(models.Model):
     password = models.CharField(max_length=100)
 
 
-class AddToCart(models.Model):
-    user = models.CharField(max_length=100)
-    test_name = models.CharField(max_length=100)
-    company_name = models.CharField(max_length=200)
-    price = models.IntegerField()
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
