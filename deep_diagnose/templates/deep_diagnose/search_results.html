@@ -3,17 +3,17 @@
 
 <body>
 
-<div class="table-responsive-sm" style="height:'auto';">
-    <table class="table table-bordered">
+<div class="table-responsive-sm pt-5 ml-5" >
+    <table class="table" style="margin-left:15%;">
 
         <tbody>
         {% for i in search %}
-        <tr>
+        <tr class="row">
 
-            <td>{{i.test_name}}</td>
-            <td> <a href="{% url 'deep_diagnose:tests_detail' pk=i.pk %}">
+            <td class="col-lg-4"><h5>{{i.test_name}}</h5></td>
+            <td class="col-lg-4 btn btn-success btn-sm"> <h5><a style="text-decoration: none; color:white;" href="{% url 'deep_diagnose:tests_detail' pk=i.pk %}">
                 FIND COMPANIES
-            </a></td>
+            </a></h5></td>
 
 
         </tr>
@@ -24,4 +24,5 @@
 
 </body>
 </html>
+
 
