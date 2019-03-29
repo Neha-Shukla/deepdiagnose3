@@ -10,8 +10,12 @@
 
     <!-- <link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/fixed.css"> -->
+
     <link rel="stylesheet" type="text/css" href="{% static 'deep_diagnose/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'deep_diagnose/css/fixed.css' %}">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="/static/deep_diagnose/js/ajax.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <!--<meta charset="UTF-8">-->
@@ -22,14 +26,11 @@
 .dropdown-submenu {
   position: relative;
 }
-
 .dropdown-submenu .dropdown-menu {
   top: 0;
   left: 100%;
   margin-top: -1px;
 }
-
-
 </style>
 </head>
 {% block javascript %}
@@ -75,16 +76,16 @@
 
 
 
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" style="color:white;">
-                            CATEGORY
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% for category in cat %}
-                            <li><a class="dropdown-item" href="{% url 'deep_diagnose:category' pk=category.id%}">{{ category.category }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" style="color:white;">
+                        CATEGORY
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for category in cat %}
+                        <li><a class="dropdown-item" href="{% url 'deep_diagnose:category' pk=category.id%}">{{ category.category }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -95,7 +96,9 @@
                 <li class="nav-item ml-auto">
                     <a class="nav-link" href="{% url 'deep_diagnose:profile' %}">{{ user.username }}</a>
                 </li>
-
+                <li class="nav-item ml-auto">
+                    <a class="nav-link" href="{% url 'deep_diagnose:orderhistory' %}">Order History</a>
+                </li>
                 {% else %}
                 <li class="nav-item ml-auto">
                     <a class="nav-link" href="{% url 'login' %}">USER</a>
@@ -105,6 +108,9 @@
                 </li>
                 <li class="nav-item ml-auto">
                     <a class="nav-link" href="{% url 'deep_diagnose:admin-login' %}">ADMIN</a>
+                </li>
+                <li class="nav-item ml-auto">
+                    <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
                 </li>
                 {% endif %}
             </ul>
@@ -140,4 +146,3 @@ $(document).ready(function(){
 <!--- End of Script Source Files -->
 </body>
 </html>
-

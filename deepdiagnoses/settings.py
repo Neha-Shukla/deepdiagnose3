@@ -154,7 +154,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '144648309726-u4gmvnevg9vjq2jf28b7m9t0mtasng78.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'ujDG6ks6a34GNMzg7S124RXI'
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'deep_diagnose:profile'
+LOGIN_REDIRECT_URL = 'deep_diagnose:find'
 django_heroku.settings(locals())
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -1,3 +1,4 @@
+
 {% extends 'deep_diagnose/base.html' %}
 {% block body %}
 
@@ -8,7 +9,7 @@
         <tbody>
         {% for company in all_companies %}
         <tr>
-            <th scope="row">{{ company.id }}</th>
+
             <td>{{company.company_name}}</a></td>
             <td><img src="{{ company.logo.url }}" height="200px" weight="300px"></td>
             <td><a href="{% url 'deep_diagnose:company_detail' company.id %}">FIND</a></td>

@@ -2,15 +2,15 @@
 {% block body %}
 <div class="col-12 testbox text-center" style="padding-top:7rem;">
     <form method="GET" action="/response" class="form-inline my-2 my-lg-0"0>
-    <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            name="search"
-            value="{{search_term}}">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-</form>
+        <input
+                class="form-control mr-sm-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                name="search"
+                value="{{search_term}}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
 </div>
 <div class="testresult text-center">
 
@@ -21,40 +21,32 @@
 </div>
 <div class="table-responsive-sm">
     <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th scope="col">SNO</th>
-            <th scope="col">COMPANY NAME</th>
-            <th scope="col">ADDRESS</th>
-            <th scope="col">TESTS AVAILABLE</th>
 
-        </tr>
-        </thead>
         <tbody>
         {% for company in filter.qs %}
         <tr>
-            <th scope="row">{{ company.id }}</th>
-            <td>{{company.company_name}}</td>
-            <td>{{ company.address_line1 }}
+            <th scope="row"><img src="{{ company.logo.url }}" height="200px" width="300px"></th>
+            <td style="padding-top:7rem;">{{company.company_name}}</td>
+            <td style="padding-top:7rem;">{{ company.address_line1 }}
                 <br>
                 {{ company.city }} {{ company.state }}</td>
-            <td><a href="{% url 'deep_diagnose:company_detail' company.id %}">FIND</a></td>
+            <td style="padding-top:7rem;"><a href="{% url 'deep_diagnose:company_detail' company.id %}">FIND</a></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
 
-    <!--{% for company in filter.qs %}-->
-    <!--<img src="{{company.logo.url }}" width="25%" height="45%">-->
-    <!--<br>-->
-    <!--<a href="{% url 'deep_diagnose:company_detail' company.id %}">{{company.company_name}}></a><br>-->
-        <!--{{ company.address_line1 }}-->
-        <!--<br>-->
-        <!--{{ company.city }} {{ company.state }}-->
-        <!--<br><br>-->
+<!--{% for company in filter.qs %}-->
+<!--<img src="{{company.logo.url }}" width="25%" height="45%">-->
+<!--<br>-->
+<!--<a href="{% url 'deep_diagnose:company_detail' company.id %}">{{company.company_name}}></a><br>-->
+<!--{{ company.address_line1 }}-->
+<!--<br>-->
+<!--{{ company.city }} {{ company.state }}-->
+<!--<br><br>-->
 
-        <!--{% endfor %}-->
+<!--{% endfor %}-->
 
 
 {% endblock %}

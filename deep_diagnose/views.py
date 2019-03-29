@@ -260,6 +260,37 @@ def send(request):
     return render(request,'deep_diagnose/send.html',{'orderno':orderno})
 
 
+def OrderHistory(request):
+    orders = OrderInfo.objects.filter(user_name=request.user)
+    return render(request,'deep_diagnose/orderhistory.html',{'orders':orders})
+
+
+class CancelOrder(DeleteView):
+    model = OrderInfo
+    success_url = reverse_lazy('deep_diagnose:orderhistory')
+
+
+class OrderUpdate(UpdateView):
+    model = OrderInfo
+    fields = ['age','address_line_1','city','state','phone_no','zip_code','suitable_date',
+              'suitable_time']
+    success_url = reverse_lazy('deep_diagnose:adminhome')
+
+
+def search_titles(request):
+    context ={}
+    if request.method == 'POST':
+        search_text = request.POST['search_text']
+        search = Tests.objects.filter(
+            test_name__istartswith=search_text)
+        context={
+            'search':search,
+        }
+        html = render_to_string('deep_diagnose/search_results.html',context)
+
+        return HttpResponse(html, content_type="application/json")
+    return render(request,'deep_diagnose/ajax_search.html',context)
+
 
 
 

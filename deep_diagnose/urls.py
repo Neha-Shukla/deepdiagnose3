@@ -61,5 +61,9 @@ urlpatterns = [
 
     url(r'category(?P<pk>[0-9]+)/$', views.Category.as_view(), name='category'),
 
-    # path('', views.send, name='send'),
+    path('orderhistory/', views.OrderHistory, name='orderhistory'),
+    url(r'order/(?P<pk>[0-9]+)/cancel/$', views.CancelOrder.as_view(), name='cancel-order'),
+    url(r'order/(?P<pk>[0-9]+)/update/$', views.OrderUpdate.as_view(), name='update-order'),
+
+    url(r'^search',views.search_titles),#renders ajax_search.html
 ]
